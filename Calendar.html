@@ -20,6 +20,10 @@
   </style>
 </head>
 <body>
+
+  <!-- ОБЯЗАТЕЛЬНО! -->
+  <script src="https://telegram.org/js/telegram-web-app.js"></script>
+
   <div class="box">
     <h2>Выберите дату и время</h2>
 
@@ -29,14 +33,17 @@
     <label>Время:</label>
     <input type="time" id="time" step="900">
 
-<button id="submitBtn" class="btn">Записаться</button>
-
+    <button id="submitBtn" class="btn">Записаться</button>
   </div>
 
 <script>
-    const tg = window.Telegram.WebApp; // объект Telegram
+    const tg = window.Telegram.WebApp;
+
+    tg.ready();   // Обязательно! Сообщаем Telegram, что WebApp загружен
+    tg.expand();  // Максимальное окно
 
     document.getElementById("submitBtn").addEventListener("click", () => {
+
         const date = document.getElementById("date").value;
         const time = document.getElementById("time").value;
 
@@ -45,20 +52,14 @@
             return;
         }
 
-        // Отправляем данные в Telegram → n8n
         tg.sendData(JSON.stringify({
             date: date,
             time: time
         }));
 
-        // Закрыть WebApp
         tg.close();
     });
-
-    // Опционально: сразу разворачиваем WebApp экран
-    tg.expand();
 </script>
-
 
 </body>
 </html>
